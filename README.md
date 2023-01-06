@@ -227,6 +227,8 @@ export default function App() {
 - store folder -> slices folder, index.js, actions.js 
 - slices folder -> fileSlice.js
 
+![Screenshot_1](https://user-images.githubusercontent.com/88320671/210997944-757b8630-ea9c-49c6-8cfb-1e4ecac8644e.png)
+
 ```js (actions.js)
 import { createAction } from "@reduxjs/toolkit";
 
@@ -277,5 +279,3 @@ const store = configureStore({
 export { store };
 export { reset, addSong, removeSong, addMovie, removeMovie };
 ```
-
-![Screenshot_1](https://user-images.githubusercontent.com/88320671/210997944-757b8630-ea9c-49c6-8cfb-1e4ecac8644e.png)
