@@ -150,7 +150,6 @@ const handleSongAdd = (song) => {
     dispatch(addSong(song));
 };
 ```
-<<<<<<< HEAD
 
 ## Accessing State
 
