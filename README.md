@@ -150,6 +150,7 @@ const handleSongAdd = (song) => {
     dispatch(addSong(song));
 };
 ```
+<<<<<<< HEAD
 
 ## Accessing State
 
@@ -276,3 +277,7 @@ const store = configureStore({
 export { store };
 export { reset, addSong, removeSong, addMovie, removeMovie };
 ```
+=======
+![Screenshot_1](https://user-images.githubusercontent.com/88320671/210997944-757b8630-ea9c-49c6-8cfb-1e4ecac8644e.png)
+
+>>>>>>> 5c5418430d2b9cbe12aa6443149e3b9ca8c7b227
