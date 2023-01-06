@@ -229,13 +229,16 @@ export default function App() {
 
 ![Screenshot_1](https://user-images.githubusercontent.com/88320671/210997944-757b8630-ea9c-49c6-8cfb-1e4ecac8644e.png)
 
-```js (actions.js)
+
+- actions.js
+```js
 import { createAction } from "@reduxjs/toolkit";
 
 export const reset = createAction('app/reset');
 ```
 
-```js (fileSlice.js)
+- fileSlice.js
+```js
 import { createSlice } from "@reduxjs/toolkit";
 import { reset } from '../actions'
 
@@ -263,7 +266,8 @@ export const songsReducer = songsSlice.reducer;
 //export default songSlice.reducer;
 ```
 
-```js (index.js)
+- index.js
+```js
 import { configureStore } from '@reduxjs/toolkit'
 import { songsReducer, addSong, removeSong } from './slices/songSlice';
 import { moviesReducer, addMovie, removeMovie } from './slices/movieSlice';
