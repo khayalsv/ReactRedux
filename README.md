@@ -1,3 +1,9 @@
+# Introduction to Redux
+Redux JS kitabxanasıdır və useReducer-ə oxşardır.
+useReducer - componentin daxilində state yaradırdıq və bu state həmin componente aid olub, alt componentlərə ötürürdük.
+Redux - store adında ayrı bir obyekt yaradırıq və burada yaratdığımız state-ni bütün componentlərə ötürə bilirik.
+store React proyektinden ayrı şəkildə yaşayır.Yəni store-ni ayri bir yer olaraq (depo) fikirləşə bilərik.
+
 # Using Create React App
 
 npx create-react-app my-app --template redux
