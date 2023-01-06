@@ -92,12 +92,11 @@ export const {addSong} =songsSlice.actions;
 
 ```
 
-### Changing State
-Layihə başına dəfələrlə istifadə olunur
+## Changing State
 
 1. State-ni müəyyən bir şəkildə dəyişən slice-lardan birinə reducer əlavə edirik.
 2. Slice-nin avtomatik yaratdığı 'action creator'-ı ixrac edirik.
-3. Dispatch etmək istədiyimiz componenti tapırıq.
+3. Dispatch etmək istədiyimiz componenti tapırıq. ( SongPlaylist() componenti )
 4. 'action creator'-ı və 'useDispatch' funksiyasını 'react-redux' kitabxanasından import edirik.
 5. Dispatch funksiyasına daxilm olmaq üçün 'useDispatch' hookunu çağırırıq.
 6. İstifadəçi bir şey etdikdə, action-ı əldə etmək üçün 'action creator'-ı çağırıb onu göndəririk.
@@ -110,7 +109,6 @@ const songsSlice = createSlice({
     name: 'song',
     initialState: [],
     reducers: {
-        // 'song' + '/' + 'addSong' = 'song/addSong
         addSong(state, action) {
             state.push(action.payload);
         },
@@ -124,10 +122,14 @@ const songsSlice = createSlice({
 export const {addSong} = songsSlice.actions;
 
 3.
-const handleSongAdd = (song) => {
-    //
-    console.log(song);
-};
+function SongPlaylist() {
+
+    const handleSongAdd = (song) => {
+       //
+       console.log(song);
+    };
+}
+
 
 4.
 import { useDispatch } from "react-redux";
@@ -147,4 +149,130 @@ const dispatch = useDispatch();
 const handleSongAdd = (song) => {
     dispatch(addSong(song));
 };
+```
+
+## Accessing State
+
+1. State-ə çatmaq üçün həmin componenti tapırıq.
+2. 'useSelector' hookunu 'react-redux' kitabxanasından import edirik.
+3. 'useSelector' hook-unu çağıraraq funksiyasını işlədirik.
+4. State-dən istifadə edirik.İstənilən baxt state dəyişdikdə,compöonent avtomatik olaraq yenidən göstəriləcək.
+
+#### code
+
+```js
+1.
+function SongPlaylist() {}
+
+2.
+import { useSelector } from "react-redux";
+
+3.
+const songPlaylist = useSelector((state) => {
+    // console.log(state);
+    return state.songs;
+});
+```
+
+## Multiple State Updates
+
+Müstəqil action yaradıb, hər 2 slice-a əlavə edirik.
+
+- Hər iki Siyahını Sıfırlamaq üçün metod
+
+```js
+import { createAction } from '@reduxjs/toolkit'
+
+export const reset = createAction('app/reset');
+
+const movieSlice = createSlice({
+    //,
+    extraReducers(builder) {
+        builder.addCase(reset, (state, action) => {
+            return [];
+        });
+    };
+});
+
+
+const songsSlice = createSlice({
+    //,
+    extraReducers(builder) {
+        builder.addCase(reset, (state, action) => {
+            return [];
+        })
+    }
+})
+```
+
+```js (App.js)
+import { useDispatch } from "react-redux";
+import { reset } from "./store";
+
+export default function App() {
+    const dispatch = useDispatch();
+
+    const handleResetClick = () => {
+        dispatch(reset());
+    };
+
+////
+}
+```
+
+## Refactoring the Project Structure
+
+- src folder -> store folder
+- store folder -> slices folder, index.js, actions.js 
+- slices folder -> fileSlice.js
+
+```js (actions.js)
+import { createAction } from "@reduxjs/toolkit";
+
+export const reset = createAction('app/reset');
+```
+
+```js (fileSlice.js)
+import { createSlice } from "@reduxjs/toolkit";
+import { reset } from '../actions'
+
+const songsSlice = createSlice({
+    name: 'song',
+    initialState: [],
+    reducers: {
+        addSong(state, action) {
+            state.push(action.payload);
+        },
+        removeSong(state, action) {
+            const index = state.indexOf(action.payload);
+            state.splice(index, 1);
+        },
+    },
+    extraReducers(builder) {
+        builder.addCase(reset, (state, action) => {
+            return [];
+        })
+    }
+});
+
+export const { addSong, removeSong } = songsSlice.actions;
+export const songsReducer = songsSlice.reducer;
+//export default songSlice.reducer;
+```
+
+```js (index.js)
+import { configureStore } from '@reduxjs/toolkit'
+import { songsReducer, addSong, removeSong } from './slices/songSlice';
+import { moviesReducer, addMovie, removeMovie } from './slices/movieSlice';
+import { reset } from './actions';
+
+const store = configureStore({
+    reducer: {
+        songs: songsReducer,
+        movies: moviesReducer
+    }
+});
+
+export { store };
+export { reset, addSong, removeSong, addMovie, removeMovie };
 ```
